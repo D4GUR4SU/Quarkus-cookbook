@@ -1,6 +1,8 @@
 package org.acme.quickstart;
 
 
+import io.quarkus.vertx.http.runtime.filters.Filter;
+import io.quarkus.vertx.http.runtime.filters.Filters;
 import io.quarkus.vertx.web.Route;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
@@ -28,5 +30,15 @@ public class ApplicationRoutes {
         }
 
         routingContext.response().end("OK " + name + " you are right");
+    }
+
+    public void filters(@Observes Filters filters) {
+        filters
+            .register(rc -> {
+                rc.response()
+                        .putHeader("V-Header", "Header added by Vertx Filter");
+        rc.next();
+    },
+    10);
     }
 }
