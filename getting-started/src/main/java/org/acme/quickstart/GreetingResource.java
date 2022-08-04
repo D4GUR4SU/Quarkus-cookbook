@@ -1,19 +1,25 @@
 package org.acme.quickstart;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.validation.constraints.NotBlank;
+import javax.ws.rs.*;
+
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 @Path("/hello")
 public class GreetingResource {
+
+    public static enum Order{
+        asc, desc;
+    }
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello(
         @Context UriInfo uriInfo,
-        @QUeryParam("order") Order order,
-        @NotBlank @HeaderParameter("authorization") String authorization
+        @QueryParam("order") Order order,
+        @NotBlank @HeaderParam("authorization") String authorization
     ) {
 
         return String.format("URI: %s - Order %s - Authorization: %s",
@@ -23,7 +29,7 @@ public class GreetingResource {
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     public void create(String message){
-        System.outr.println("Create")
+        System.out.println("Create");
     }
 
     @PUT
