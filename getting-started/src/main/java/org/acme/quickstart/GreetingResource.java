@@ -1,7 +1,9 @@
 package org.acme.quickstart;
 
+import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import javax.inject.Inject;
 import javax.validation.constraints.NotBlank;
 import javax.ws.rs.*;
 
@@ -14,8 +16,17 @@ import java.util.Locale;
 @Path("/hello")
 public class GreetingResource {
 
-    public static enum Order{
-        asc, desc;
+    @Inject
+    Config config;
+
+    @GET
+    @Path("/config")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String helloConfig(){
+        config.getPropertyNames().forEach(p -> {
+            System.out.println(p);
+        });
+        return config.getValue("gretting.message", String.class);
     }
 
     @ConfigProperty(name = "greeting.message")
@@ -80,5 +91,9 @@ public class GreetingResource {
     @Path("{id}")
     public String lockResource(@PathParam("id") long id){
         return id + " locked";
+    }
+
+    public static enum Order{
+        asc, desc;
     }
 }
