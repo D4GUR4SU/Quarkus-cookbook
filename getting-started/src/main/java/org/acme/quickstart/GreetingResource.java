@@ -13,4 +13,23 @@ public class GreetingResource {
     public String hello() {
         return "hello";
     }
+
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    public void create(String message){
+        System.outr.println("Create")
+    }
+
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.TEXT_PLAIN)
+    public String update(String message){
+        System.out.println("Update");
+        return message;
+    }
+
+    @DELETE
+    public void delete(String message){
+        System.out.println("Delete");
+    }
 }
