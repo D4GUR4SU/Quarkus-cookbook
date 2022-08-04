@@ -10,8 +10,14 @@ public class GreetingResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "hello";
+    public String hello(
+        @Context UriInfo uriInfo,
+        @QUeryParam("order") Order order,
+        @NotBlank @HeaderParameter("authorization") String authorization
+    ) {
+
+        return String.format("URI: %s - Order %s - Authorization: %s",
+        uriInfo.getAbsolutePath(), order, authorization);
     }
 
     @POST
