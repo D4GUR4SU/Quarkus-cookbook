@@ -44,4 +44,11 @@ public class GreetingResource {
     public void delete(String message){
         System.out.println("Delete");
     }
+
+    @LOCK
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public String lockResource(@PathParam("id") long id){
+        return id + " locked";
+    }
 }
