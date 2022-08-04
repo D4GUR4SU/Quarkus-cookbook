@@ -12,7 +12,7 @@ public class HeaderAdditionContainerResponseFilter implements ContainerResponseF
     @Override
     public void filter(ContainerRequestContext requestContext,
                        ContainerResponseContext responseContext) throws IOException {
-        
+
         responseContext
             .getHeaders()
             .add("X-Header", "Header added by JAXRS Filter");
