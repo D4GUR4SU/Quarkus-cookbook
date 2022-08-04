@@ -1,0 +1,11 @@
+greeting:
+  message: Hello World
+"%staging":
+  quarkus:
+    http:
+      port: 8182
+quarkus:
+  http:
+    cors:
+      ~: true
+      methods: GET,PUT,POST,DELETE

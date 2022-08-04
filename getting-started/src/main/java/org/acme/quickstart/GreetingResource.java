@@ -1,11 +1,15 @@
 package org.acme.quickstart;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import javax.validation.constraints.NotBlank;
 import javax.ws.rs.*;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
+import java.util.List;
+import java.util.Locale;
 
 @Path("/hello")
 public class GreetingResource {
@@ -14,7 +18,33 @@ public class GreetingResource {
         asc, desc;
     }
 
+    @ConfigProperty(name = "greeting.message")
+    String message;
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String hello(){
+        return message;
+    }
+
+    @ConfigProperty(name = "greeting.upper-case", defaultValue = "true")
+    boolean upperCase;
+    @GET
+    @Path("/optional")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String helloOptional(){
+        return upperCase ? message.toUpperCase() : message;
+    }
+
+    @ConfigProperty(name = "greeting.suffix")
+    List<String> suffixes;
+    @GET
+    @Path("/list")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String helloList(){
+        return message + suffixes.get(1);
+    }
+
+    /*@GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello(
         @Context UriInfo uriInfo,
@@ -24,7 +54,7 @@ public class GreetingResource {
 
         return String.format("URI: %s - Order %s - Authorization: %s",
         uriInfo.getAbsolutePath(), order, authorization);
-    }
+    }*/
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
